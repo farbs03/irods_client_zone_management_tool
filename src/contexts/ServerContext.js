@@ -56,7 +56,7 @@ export const ServerProvider = ({ children }) => {
 	const loadUsers = async (offset, limit, order, orderBy, name) => {
 		setIsLoadingUserContext(true);
 
-		if (name == "" || name == "USER_NAME") {
+		if (!name || name == "USER_NAME") {
 			let _query = `SELECT USER_NAME, USER_TYPE, USER_ZONE WHERE USER_TYPE != 'RODSGROUP'`;
 
 			_query = queryGenerator(_query, order, orderBy);
@@ -82,7 +82,7 @@ export const ServerProvider = ({ children }) => {
 					setUserTotal(res.data.rows.length);
 					let newUserContext = {
 						rows: res.data.rows,
-						count: res.data.rows.length,
+						count: Math.min(25, res.data.rows.length),
 						total: res.data.rows.length,
 					};
 					setUserContext(newUserContext);
@@ -243,7 +243,12 @@ export const ServerProvider = ({ children }) => {
 				.sort((a, b) => (order === "asc" ? 1 : -1) * (a[1] - b[1]))
 				.slice(offset, offset + limit);
 		}
-		setGroupContext(inputArray);
+		let newGroupContext = {
+			rows: inputArray.rows,
+			count: inputArray.rows.length,
+			total: inputArray.rows.length,
+		};
+		setGroupContext(newGroupContext);
 		setIsLoadingGroupContext(false);
 	};
 
@@ -269,7 +274,7 @@ export const ServerProvider = ({ children }) => {
 			},
 		})
 			.then((res) => {
-				if (name === "") setGroupTotal(res.data.total);
+				if (name === "") setGroupTotal(res.data.rows.length);
 				loadGroupUserCounts(res.data, offset, limit, order, orderBy);
 			})
 			.catch(() => {

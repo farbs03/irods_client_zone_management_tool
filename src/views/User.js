@@ -224,7 +224,7 @@ export const User = () => {
 	};
 
 	const handleFilterChange = (e) => {
-		if (filterUsername === "") setIsRunning(!isRunning);
+		if (!filterUsername) setIsRunning(!isRunning);
 		setFilterName(e.target.value);
 		setUserData([]);
 		// update the path without reload, filter is also encoded
@@ -256,15 +256,9 @@ export const User = () => {
 			firstUpdate.current = false;
 			return;
 		}
-		if (filterUsername === "") {
+		if (!filterUsername) {
 			// when the user clears out the filter, immediately load all users back
-			loadUsers(
-				perPage * (currPage - 1),
-				perPage,
-				order,
-				orderBy,
-				filterUsername
-			);
+			loadUsers(perPage * (currPage - 1), perPage, order, orderBy, "");
 			setTime(0);
 			setIsRunning(false);
 			return;
@@ -285,7 +279,6 @@ export const User = () => {
 
 		if (time < delayTimeUse) {
 			// filter on frontend since timer has not reached delay limit yet
-			console.log(userContext);
 			let filteredUsers = userContext.rows.filter(
 				(user) =>
 					user[0]
@@ -296,6 +289,8 @@ export const User = () => {
 						.includes(filterUsername.toLowerCase()) ||
 					user[1].toLowerCase().includes(filterUsername.toLowerCase())
 			);
+			console.log(userContext);
+			console.log(filteredUsers);
 
 			setUserData(filteredUsers);
 		} else {
