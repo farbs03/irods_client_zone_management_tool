@@ -176,40 +176,6 @@ export const ResourceListView = () => {
 		})
 	}
 
-	// async function addResource() {
-		
-	// 	await axios({
-	// 		method: "POST",
-	// 		url: `${environment.restApiLocation}/admin`,
-	// 		headers: {
-	// 			Authorization: auth,
-	// 		},
-	// 		params: {
-	// 			action: "add",
-	// 			target: "resource",
-	// 			arg2: rescName,
-	// 			arg3: rescType,
-	// 			arg4:
-	// 				rescLocation === "" && rescVaultPath === ""
-	// 					? ""
-	// 					: rescLocation + ":" + rescVaultPath,
-	// 			arg5: "",
-	// 			arg6: localZoneName,
-	// 		},
-	// 	})
-	// 		.then(() => {
-	// 			window.location.reload();
-	// 			setAddResult("Resource created.");
-	// 			setLoading(false);
-	// 		})
-	// 		.catch((e) => {
-	// 			setAddResult(
-	// 				`Error Code ${e.response.data.error_code}: ${e.response.data.error_message}`
-	// 			);
-	// 			setLoading(false);
-	// 		});
-	// }
-
 	const handleKeyDown = (e) => {
 		if (e.keyCode === 13) addResource();
 	};
