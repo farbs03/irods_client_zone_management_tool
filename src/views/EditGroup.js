@@ -5,6 +5,7 @@ import { Link, navigate } from '@reach/router';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { makeStyles, Button, LinearProgress, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@material-ui/core';
 import { useEnvironment, useServer } from '../contexts';
+import { AddUserToGroupController, RemoveUserFromGroupController } from '../controllers/GroupController';
 
 const useStyles = makeStyles(() => ({
     link_button: {
@@ -72,29 +73,20 @@ export const EditGroup = (props) => {
                 'case-sensitive': 0
             }
         }).then((res) => {
-            setFilterNameResult(res.data._embedded);
+            setFilterNameResult(res.data.rows);
             setLoading(false);
         })
     }, [auth, restApiLocation, filterUserName])
 
     async function removeUserFromGroup(user) {
         try {
-            await axios({
-                method: 'POST',
-                url: `${restApiLocation}/admin`,
-                params: {
-                    action: 'modify',
-                    target: 'group',
-                    arg2: currentGroup[0],
-                    arg3: 'remove',
-                    arg4: user[0],
-                    arg5: localZoneName
-                },
-                headers: {
-                    'Authorization': `Bearer ${auth}`,
-                    'Accept': 'application/json'
-                }
-            }).then(() => {
+            await RemoveUserFromGroupController(
+                user[0],
+                localZoneName,
+                currentGroup[0],
+                restApiLocation
+            )
+            .then(() => {
                 setRefresh(!refresh);
             })
         } catch (e) {
@@ -104,22 +96,13 @@ export const EditGroup = (props) => {
 
     async function addUserToGroup(user) {
         try {
-            await axios({
-                method: 'POST',
-                url: `${restApiLocation}/admin`,
-                params: {
-                    action: 'modify',
-                    target: 'group',
-                    arg2: currentGroup[0],
-                    arg3: 'add',
-                    arg4: user[0],
-                    arg5: localZoneName
-                },
-                headers: {
-                    'Authorization': `Bearer ${auth}`,
-                    'Accept': 'application/json'
-                }
-            }).then(() => {
+            await AddUserToGroupController(
+                user[0],
+                localZoneName,
+                currentGroup[0],
+                restApiLocation
+            )
+            .then(() => {
                 setRefresh(!refresh);
             })
         }
