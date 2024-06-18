@@ -1,31 +1,37 @@
 import axios from 'axios';
 
 export const AddGroupController = (name, restApiLocation) => {
-    return axios({
-        method: 'POST',
-        url: `${restApiLocation}/users-groups`,
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`
-        },
-        params: {
-            op: 'create_group',
-            name: name,
-        }
-    })
+    const params = new URLSearchParams({
+        op: "create_group",
+        name: name,
+    });
+
+    return axios.post(
+        `${restApiLocation}/users-groups`,
+        params,
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`,
+            }
+        } 
+    )
 }
 
 export const RemoveGroupController = async (name, restApiLocation) => {
-    return axios({
-        method: 'POST',
-        url: `${restApiLocation}/users-groups`,
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`
-        },
-        params: {
-            op: "remove_group",
-            name: name,
-        }
-    })
+    const params = new URLSearchParams({
+        op: "remove_group",
+        name: name,
+    });
+
+    return axios.post(
+        `${restApiLocation}/users-groups`,
+        params,
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`,
+            }
+        } 
+    )
 }
 
 export const AddUserToGroupController = (user, zone, group, restApiLocation) => {
@@ -41,7 +47,6 @@ export const AddUserToGroupController = (user, zone, group, restApiLocation) => 
         params,
         {
             headers: {
-                // 'content-type': 'application/x-www-form-urlencoded',
                 'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`,
             }
         } 
@@ -61,7 +66,6 @@ export const RemoveUserFromGroupController = (user, zone, group, restApiLocation
         params,
         {
             headers: {
-                // 'content-type': 'application/x-www-form-urlencoded',
                 'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`,
             }
         } 

@@ -52,7 +52,7 @@ export const EditUser = () => {
     const [isLoading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const { restApiLocation } = useEnvironment();
-    const { loadUser } = useServer();
+    const { loadUsers } = useServer();
     const [groupsOfUser, setGroupsOfUser] = useState([]);
     const [filterGroupName, setFilterName] = useState('');
     const [filterGroupNameResult, setFilterNameResult] = useState();
@@ -134,7 +134,6 @@ export const EditUser = () => {
                     'case-sensitive': 0
                 }
             }).then((res) => {
-                console.log(res.data.rows[0])
                 setFilterNameResult(res.data.rows);
             })
         }
@@ -220,7 +219,7 @@ export const EditUser = () => {
             restApiLocation
         ).then(() => {
             setUserType({ value: newType, status: 'changed' })
-            loadUser(0, 0, '', 'asc', 'USER_NAME')
+            loadUsers(0, 0, '', 'asc', 'USER_NAME')
         }).catch(() => {
             setUserType({ ...userType, status: 'failed' })
         })
@@ -244,9 +243,16 @@ export const EditUser = () => {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Paper className={classes.user_info}>
                         <h2>Basic Information</h2>
-                        <div style={{ wordWrap: 'break-word' }}><Typography>User: {currentUserName}#{currentUserZone}</Typography></div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}><Typography>User Type: </Typography>
-                            <Select style={{ marginLeft: '10px' }} value={userType.value} onChange={(e) => updateUserType(e.target.value)}>
+                        <div style={{ wordWrap: 'break-word' }}>
+                            <Typography>User: {currentUserName}#{currentUserZone}</Typography>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography>User Type: </Typography>
+                            <Select 
+                                style={{ marginLeft: '10px' }} 
+                                value={userType.value} 
+                                onChange={(e) => updateUserType(e.target.value)}
+                            >
                                 <MenuItem value="rodsuser">rodsuser</MenuItem>
                                 <MenuItem value="rodsadmin">rodsadmin</MenuItem>
                                 <MenuItem value="groupadmin">groupadmin</MenuItem>

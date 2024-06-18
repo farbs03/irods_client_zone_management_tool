@@ -13,7 +13,6 @@ export const AddUserController = (name, zone, userType, restApiLocation) => {
         params,
         {
             headers: {
-                // 'content-type': 'application/x-www-form-urlencoded',
                 'Authorization': `Bearer ${localStorage.getItem('zmt-token')}`,
             }
         } 

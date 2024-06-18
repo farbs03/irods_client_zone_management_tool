@@ -29,6 +29,7 @@ import {
 import SaveIcon from "@material-ui/icons/Save";
 import CloseIcon from "@material-ui/icons/Close";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { AddGroupController } from "../controllers/GroupController";
 
 const useStyles = makeStyles((theme) => ({
 	link_button: {
@@ -120,22 +121,11 @@ export const Group = () => {
 
 	async function addGroup() {
 		try {
-			await axios({
-				method: "POST",
-				url: `${environment.restApiLocation}/admin`,
-				params: {
-					action: "add",
-					target: "user",
-					arg2: document.getElementById("add-group-name").value,
-					arg3: "rodsgroup",
-					arg4: localZoneName,
-					arg5: "",
-				},
-				headers: {
-					Authorization: auth,
-					Accept: "application/json",
-				},
-			}).then(() => {
+			await AddGroupController(
+				document.getElementById("add-group-name").value,
+				environment.restApiLocation
+			)
+			.then(() => {
 				window.location.reload();
 			});
 		} catch (e) {

@@ -42,16 +42,16 @@ export const EditGroup = (props) => {
             url: `${restApiLocation}/query`,
             headers: {
                 'Accept': 'application/json',
-                'Authorization': auth
+                'Authorization': `Bearer ${auth}`
             },
             params: {
+                op: "execute_genquery",
                 query: `SELECT USER_NAME, USER_TYPE WHERE USER_GROUP_NAME = '${currentGroup[0]}' AND USER_TYPE != 'rodsgroup'`,
                 limit: 100,
                 offset: 0,
-                type: 'general'
             }
         }).then((res) => {
-            setUsersInGroup(res.data._embedded);
+            setUsersInGroup(res.data.rows);
             setLoading(false);
         })
     }, [auth, currentGroup, restApiLocation])
@@ -62,13 +62,13 @@ export const EditGroup = (props) => {
             method: 'GET',
             url: `${restApiLocation}/query`,
             headers: {
-                'Authorization': auth,
+                'Authorization': `Bearer ${auth}`,
             },
             params: {
+                op: "execute_genquery",
                 query: `SELECT USER_NAME, USER_TYPE WHERE USER_NAME LIKE '%${filterUserName.toUpperCase()}%' AND USER_TYPE != 'RODSGROUP'`,
                 limit: 10,
                 offset: 0,
-                type: 'general',
                 'case-sensitive': 0
             }
         }).then((res) => {
@@ -91,7 +91,7 @@ export const EditGroup = (props) => {
                     arg5: localZoneName
                 },
                 headers: {
-                    'Authorization': auth,
+                    'Authorization': `Bearer ${auth}`,
                     'Accept': 'application/json'
                 }
             }).then(() => {
@@ -116,7 +116,7 @@ export const EditGroup = (props) => {
                     arg5: localZoneName
                 },
                 headers: {
-                    'Authorization': auth,
+                    'Authorization': `Bearer ${auth}`,
                     'Accept': 'application/json'
                 }
             }).then(() => {
