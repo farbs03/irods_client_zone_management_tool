@@ -219,7 +219,7 @@ export const EditUser = () => {
             restApiLocation
         ).then(() => {
             setUserType({ value: newType, status: 'changed' })
-            loadUsers(0, 0, '', 'asc', 'USER_NAME')
+            // loadUsers(0, 0, '', 'asc', 'USER_NAME')
         }).catch(() => {
             setUserType({ ...userType, status: 'failed' })
         })
